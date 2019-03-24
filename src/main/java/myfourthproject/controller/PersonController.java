@@ -17,18 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import myfourthproject.model.Person;
 import myfourthproject.repository.PersonRepository;
 
-@RestController 
+@RestController
 @RequestMapping("/persons")
 public class PersonController {
-	
+
 	@Autowired
 	private PersonRepository personRepository;
-	
+
 	@GetMapping("/add")
-	public @ResponseBody String addNewUser (@RequestParam String name
-			, @RequestParam Integer age) {
-		// @ResponseBody means the returned String is the response, not a view name
-		// @RequestParam means it is a parameter from the GET or POST request
+	public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam Integer age) {
 
 		Person n = new Person();
 		n.setName(name);
@@ -36,7 +33,7 @@ public class PersonController {
 		personRepository.save(n);
 		return "Saved";
 	}
-	
+
 	@GetMapping
 	public @ResponseBody Iterable<Person> get() {
 		return personRepository.findAll();
@@ -46,18 +43,18 @@ public class PersonController {
 	public Optional<Person> get(@PathVariable("id") Integer id) {
 		return personRepository.findById(id);
 	}
-	
+
 	@PostMapping
 	public void add(@RequestBody Person person) {
 		personRepository.save(person);
 	}
-	
+
 	@PutMapping("/{id}")
 	public void update(@RequestBody Person person, @PathVariable("id") Integer id) {
 		personRepository.deleteById(id);
 		personRepository.save(person);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable("id") Integer id) {
 		personRepository.deleteById(id);
